@@ -1,61 +1,37 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Counter : MonoBehaviour
 {
-    [SerializeField] private Text _counterUI;
+    private Coroutine _coroutine;
 
-    private Coroutine _countingCoroutine;
+    private int _count = 0;
 
-    private int _count;
+    private bool _isActive = false;
 
-    private bool _isCounting;
+    public UnityEvent<int> OnValueUpdated = new UnityEvent<int>();
 
-    private void Update()
+    public void ToggleCounting()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (_isCounting)
-            {
-                StopCounting();
-            }
-            else
-            {
-                StartCounting();
-            }
-        }
+        _isActive = !_isActive;
+
+        if (_isActive)
+            _coroutine = StartCoroutine(Counting());
+
+        else if (_coroutine != null)
+            StopCoroutine(_coroutine);
     }
 
-    private void StartCounting()
+    private IEnumerator Counting()
     {
-        _isCounting = true;
-        _countingCoroutine = StartCoroutine(CountEveryHalfSecond());
-    }
-
-    private void StopCounting()
-    {
-        _isCounting = false;
-        if (_countingCoroutine != null)
-        {
-            StopCoroutine(_countingCoroutine);
-        }
-    }
-
-    private IEnumerator CountEveryHalfSecond()
-    {
-        while (true)
+        while (_isActive)
         {
             yield return new WaitForSeconds(0.5f);
+
             _count++;
-            UpdateCounterDisplay();
+
+            OnValueUpdated.Invoke(_count);
         }
-    }
-
-    private void UpdateCounterDisplay()
-    {
-        Debug.Log("Current count: " + _count);
-
-        _counterUI.text = "Count: " + _count;
     }
 }
