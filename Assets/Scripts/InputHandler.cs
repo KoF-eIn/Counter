@@ -1,15 +1,23 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class InputHandler : MonoBehaviour
 {
-    public UnityEvent OnClick = new UnityEvent();
+    [SerializeField] private CounterDisplay _display;
+
+    private Counter _counter;
+
+    private void Awake()
+    {
+        _counter = GetComponent<Counter>();
+
+        _counter.ValueChanged += _display.UpdateDisplay;
+    }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            OnClick.Invoke();
+            _counter.ToggleCounting();
         }
     }
 }

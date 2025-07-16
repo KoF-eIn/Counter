@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CounterView : MonoBehaviour
+public class CounterDisplay : MonoBehaviour
 {
     private Text _text;
 
@@ -9,10 +9,10 @@ public class CounterView : MonoBehaviour
     {
         _text = GetComponent<Text>();
 
-        _text.text = "0"; 
+        _text.text = "0";
     }
 
-    public void UpdateValue(int value)
+    public void UpdateDisplay(int value)
     {
         _text.text = value.ToString();
     }

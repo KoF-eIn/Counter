@@ -1,16 +1,25 @@
-using System.Collections;
+using System;
 using UnityEngine;
-using UnityEngine.Events;
+using System.Collections;
 
 public class Counter : MonoBehaviour
 {
+    private const float Delay = 0.5f;
+
+    public event Action<int> ValueChanged;
+
     private Coroutine _coroutine;
 
-    private int _count = 0;
+    private WaitForSeconds _wait;
 
-    private bool _isActive = false;
+    private int _value;
 
-    public UnityEvent<int> OnValueUpdated = new UnityEvent<int>();
+    private bool _isActive;
+
+    private void Awake()
+    {
+        _wait = new WaitForSeconds(Delay);
+    }
 
     public void ToggleCounting()
     {
@@ -18,7 +27,6 @@ public class Counter : MonoBehaviour
 
         if (_isActive)
             _coroutine = StartCoroutine(Counting());
-
         else if (_coroutine != null)
             StopCoroutine(_coroutine);
     }
@@ -27,11 +35,11 @@ public class Counter : MonoBehaviour
     {
         while (_isActive)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return _wait;
 
-            _count++;
+            _value++;
 
-            OnValueUpdated.Invoke(_count);
+            ValueChanged?.Invoke(_value);
         }
     }
 }
