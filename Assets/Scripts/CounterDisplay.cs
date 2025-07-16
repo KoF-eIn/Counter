@@ -4,17 +4,15 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class CounterDisplay : MonoBehaviour
 {
-    private Text _text;
+    [SerializeField] private Counter _counter;
 
-    private Counter _counter;
+    private Text _text;
 
     private void Awake()
     {
         _text = GetComponent<Text>();
 
         _text.text = "0";
-
-        _counter = FindObjectOfType<Counter>();
 
         _counter.ValueChanged += UpdateDisplay;
     }

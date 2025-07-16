@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    public event Action<int> ValueChanged;
+    [SerializeField] private InputReader _inputReader;
 
     private Coroutine _coroutine;
 
@@ -16,19 +16,18 @@ public class Counter : MonoBehaviour
 
     private bool _isActive;
 
+    public event Action<int> ValueChanged;
+
     private void Awake()
     {
         _wait = new WaitForSeconds(Delay);
 
-        GetComponent<InputReader>().MouseClicked += ToggleCounting;
+        _inputReader.MouseClicked += ToggleCounting;
     }
 
     private void OnDestroy()
     {
-        if (TryGetComponent(out InputReader input))
-        {
-            input.MouseClicked -= ToggleCounting;
-        }
+        _inputReader.MouseClicked -= ToggleCounting;
     }
 
     public void ToggleCounting()

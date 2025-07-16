@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799d2162f1603cf47a7e725ad9d14c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _counter: {fileID: 1158250514}
 --- !u!1 &665962902
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,6 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ba0164c384c4d45b9344ed7ccdedf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputReader: {fileID: 1158250515}
 --- !u!114 &1158250515
 MonoBehaviour:
   m_ObjectHideFlags: 0
