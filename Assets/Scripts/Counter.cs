@@ -1,16 +1,16 @@
 using System;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    private const float Delay = 0.5f;
-
     public event Action<int> ValueChanged;
 
     private Coroutine _coroutine;
 
     private WaitForSeconds _wait;
+
+    private float Delay = 0.5f;
 
     private int _value;
 
@@ -19,6 +19,16 @@ public class Counter : MonoBehaviour
     private void Awake()
     {
         _wait = new WaitForSeconds(Delay);
+
+        GetComponent<InputReader>().MouseClicked += ToggleCounting;
+    }
+
+    private void OnDestroy()
+    {
+        if (TryGetComponent(out InputReader input))
+        {
+            input.MouseClicked -= ToggleCounting;
+        }
     }
 
     public void ToggleCounting()
